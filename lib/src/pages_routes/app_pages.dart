@@ -1,7 +1,7 @@
 import 'package:app_greengrocer/src/base/base_page.dart';
+import 'package:app_greengrocer/src/pages/sign/signPage.dart';
+import 'package:app_greengrocer/src/pages/sign/sign_up_page.dart';
 import 'package:app_greengrocer/src/pages/splash/splash_screen.dart';
-import 'package:app_greengrocer/src/sign/signPage.dart';
-import 'package:app_greengrocer/src/sign/sign_up_page.dart';
 import 'package:get/get.dart';
 
 abstract class AppPages {
@@ -12,7 +12,7 @@ abstract class AppPages {
     ),
 
     GetPage(
-      page: () => SignPage(),
+      page: () => const SignPage(),
       name: PagesRoutes.signInRoute,
     ),
 

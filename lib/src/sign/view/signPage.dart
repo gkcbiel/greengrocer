@@ -1,11 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app_greengrocer/src/config/custom_colors.dart';
 import 'package:app_greengrocer/src/components/customTextField.dart';
+import 'package:app_greengrocer/src/pages/sign/controller/auth_controller.dart';
 import 'package:app_greengrocer/src/pages_routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-
 
 class SignPage extends StatelessWidget {
   SignPage({Key? key}) : super(key: key);
@@ -94,7 +93,7 @@ class SignPage extends StatelessWidget {
                     children: [
                       //Email
                       CustomTextField(
-                        controller:  emailController,
+                        controller: emailController,
                         icon: Icons.email,
                         label: 'Email',
                         validator: (email) {
@@ -125,42 +124,52 @@ class SignPage extends StatelessWidget {
                       //Botão de entrar
                       SizedBox(
                         height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                          ),
-                          onPressed: () {
-                            if(_formKey.currentState!.validate()){
-                                print('Todos os campos estão válidos');
+                        child: GetX<AuthController>(
+                          builder: (authController) {
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                              ),
+                              onPressed: authController.isLoading.value
+                                  ? null
+                                  : () {
+                                      FocusScope.of(context).unfocus();
+                                      if (_formKey.currentState!.validate()) {
+                                        print('Todos os campos estão válidos');
 
-                                String email = emailController.text;
-                                String password = passwordController.text;
+                                        String email = emailController.text;
+                                        String password =
+                                            passwordController.text;
 
-                                print(email);
-                                print(password);
+                                        authController.signIn(
+                                          email: email,
+                                          password: password,
+                                        );
 
-                                // Navigator.of(context).pushReplacement(
-                                //   MaterialPageRoute(
-                                //     builder: (c) {
-                                //       return const BasePage();
-                                //     },
-                                //   ),
-                                // );
-                                 //Get.offNamed(PagesRoutes.baseRoute);
-                            }else{
-                                print('Campos não válidos');
-                            }
-
-
+                                        // Navigator.of(context).pushReplacement(
+                                        //   MaterialPageRoute(
+                                        //     builder: (c) {
+                                        //       return const BasePage();
+                                        //     },
+                                        //   ),
+                                        // );
+                                        Get.offNamed(PagesRoutes.baseRoute);
+                                      } else {
+                                        print('Campos não válidos');
+                                      }
+                                    },
+                              child: authController.isLoading.value
+                                  ? const CircularProgressIndicator()
+                                  : const Text(
+                                      'Entrar',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                            );
                           },
-                          child: const Text(
-                            'Entrar',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
                         ),
                       ),
                       //Esqueceu a senha
