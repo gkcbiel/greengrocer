@@ -21,7 +21,7 @@ class UtilsServices {
     Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM_RIGHT,
+      gravity: ToastGravity.TOP_RIGHT,
       timeInSecForIosWeb: 3,
       backgroundColor: isError ? Colors.red : Colors.white,
       textColor: isError ? Colors.white : Colors.black,
